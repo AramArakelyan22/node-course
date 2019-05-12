@@ -21,3 +21,15 @@
 // }
 // console.log(add(4, 5, () ))
 // TODO Watch the 35 video one more time
+
+
+const add = (num1, num2, callback) => {
+  setTimeout(() => {
+    return callback(num1 + num2)
+  }, 2000)
+}
+
+const res = add(5, 2, (sum) => {
+  console.log(sum)
+})
+console.log(res);
