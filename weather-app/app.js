@@ -1,7 +1,8 @@
 const request = require('request');
 const API = 'https://api.darksky.net/forecast/db49b2308dc20f5a5b0b0a23f58d435f/40.210306,44.528572?units=si';
 const geoAPI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=pk.eyJ1IjoiYXJhbWFyYWtlbHlhbjIyIiwiYSI6ImNqdmVyeTkzbDF6ZXo0M3J4eHluamtvNXUifQ.nPXWvzgb9liHi1kci0G-dA';
-
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 /*
 const weatherRequest = (lan, lon) => request({url: 'https://api.darksky.net/forecast/db49b2308dc20f5a5b0b0a23f58d435f/' + lan + ',' + lon + '?units=si', json: true}, (error, response) => {
     //console.log(response.body.currently)
@@ -17,35 +18,25 @@ const weatherRequest = (lan, lon) => request({url: 'https://api.darksky.net/fore
         console.log(response.body)
         console.log('It is currently ' + currentTemp + ' degrees out. There is a ' + rainForecast + '% chance of rain.')
     }
-})
-
-request({url: geoAPI, json: true}, (error, response) => {
-    if (error) {
-        console.log('Unable to connect to location service!')
-    }
-    else if (response.body.features.length === 0) {
-        console.log('Unable to find location. Try another search!')
-    }
-    else {
-        const coordinates = response.body.features[0].geometry.coordinates;
-        console.log(coordinates)
-        weatherRequest(coordinates[1], coordinates[0]);
-    }
 })*/
 
 
-const geocode = (address, callback) => {
-    const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' +encodeURIComponent(address) + '.json?access_token=pk.eyJ1IjoiYXJhbWFyYWtlbHlhbjIyIiwiYSI6ImNqdmVyeTkzbDF6ZXo0M3J4eHluamtvNXUifQ.nPXWvzgb9liHi1kci0G-dA';
-  request({url: url, json: true}, (error, response) => {
-      if(err)
-  })
-}
 
-geocode('Philladelphia', (err, data) => {
+
+geocode('montgomery', (err, data) => {
     if (err) {
         console.log(err)
     }
     else {
-        console.log(data)
+      const { longtitude, latitude } = data
+      forecast(longtitude, latitude, (err, data) => {
+
+  if(err) {
+    console.log(err)
+  }
+  if(data) {
+    console.log(data)
+  }
+})
     }
 })
