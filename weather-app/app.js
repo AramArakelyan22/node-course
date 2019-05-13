@@ -22,19 +22,25 @@ const weatherRequest = (lan, lon) => request({url: 'https://api.darksky.net/fore
 
 
 
+const location = process.argv[process.argv.length - 1];
 
-geocode('montgomery', (err, data) => {
+if (process.argv.length < 3) {
+    return console.log('No location')
+}
+
+geocode(location, (err, data) => {
     if (err) {
         console.log(err)
     }
     else {
-      const { longtitude, latitude } = data
+      const { longtitude, latitude, placeName } = data
       forecast(longtitude, latitude, (err, data) => {
 
   if(err) {
     console.log(err)
   }
   if(data) {
+      console.log(placeName);
     console.log(data)
   }
 })
