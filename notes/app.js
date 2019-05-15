@@ -1,6 +1,6 @@
 const validator = require('validator');
 const notes = require('./notes');
-const chalk = require('chalk');
+const chalk = require('chalk/types');
 const yargs = require('yargs');
 
 

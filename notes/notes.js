@@ -1,5 +1,5 @@
 const fs = require('fs');
-const chalk = require('chalk');
+const chalk = require('chalk/types');
 
 
 const addNote = (title, body) => {
