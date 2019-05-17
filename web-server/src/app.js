@@ -1,19 +1,40 @@
 const express = require('express');
 const path = require('path');
-
+const hbs = require('hbs');
 const app = express();
+
+
+//Define paths
+const viewPath = path.join(__dirname, '../templates/views');
+const partialsPath = path.join(__dirname, '../templates/partials')
+
+//Set up static di
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.set('views', viewPath);
+app.set('view engine', 'hbs')
+hbs.registerPartials(partialsPath)
+
+
 app.get('', (req, res) => {
-    res.send("<h1>Barev ashxarsh</h1>")
+    res.render('index', {
+        name: "Aram",
+        title: "weather app"
+    })
 });
 
 app.get('/help', (req, res) => {
-    res.send(express.static(path.join(__dirname, '../help')))
+    res.render('help', {
+        title: 'Help Page',
+        message: 'We will try to be helpful'
+    })
 });
 
 app.get('/about', (req, res) => {
-    res.send("<h1>About</h1>")
+    res.render('about', {
+        title: 'About me',
+        name: 'Aram'
+    })
 });
 
 app.get('/weather', (req, res) => {
@@ -23,4 +44,4 @@ app.get('/weather', (req, res) => {
     })
 });
 
-app.listen(8080, () => {console.log('server started')});
+app.listen(8080, () => {console.log('server started at port 8080')});
