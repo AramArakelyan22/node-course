@@ -36,13 +36,13 @@ geocode(location, (err, data) => {
       const { longtitude, latitude, placeName } = data
       forecast(longtitude, latitude, (err, data) => {
 
-  if(err) {
-    console.log(err)
-  }
-  if(data) {
-      console.log(placeName);
-    console.log(data)
-  }
-})
+          if(err) {
+            console.log(err)
+          }
+          if(data) {
+              console.log(placeName);
+            console.log(data)
+          }
+        })
     }
 })
