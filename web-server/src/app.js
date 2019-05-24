@@ -51,16 +51,20 @@ app.get('/weather', (req, res) => {
         })
     }
 
-    geocode(address, (err, data) => {
-        if (err) {
-            console.log(err)
+    geocode(address, (err, data = {}) => {
+        if(err) {
+            res.send({
+                err
+            })
         }
         else {
             const { longtitude, latitude, placeName } = data
-            forecast(longtitude, latitude, (err, data) => {
+            forecast(longtitude , latitude , (err, data) => {
 
                 if(err) {
-                    console.log(err)
+                    res.send({
+                        err
+                    })
                 }
                 if(data) {
                     res.send({
