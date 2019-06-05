@@ -31,32 +31,47 @@ const User = mongoose.model('User', {
                 throw new Error("The age could not be negative number")
             }
         }
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        validate(value) {
+            if(value.length < 6 ){
+                throw new Error('The password must have more tha 6 characters')
+            }
+            if(value === 'password') {
+                throw new Error('The use another password')
+            }
+        }
     }
 });
 
-const me = new User({
+/*const me = new User({
     name: '      Aram    ',
-    email: '    ARAM@gmail.com'
+    email: '    ARAM@gmail.com',
+    password: 'password',
 });
 
 me.save()
     .then(data => console.log(data))
-    .catch(err => console.log(err))
-/*
+    .catch(err => console.log(err))*/
 const Task = mongoose.model('Tasks', {
     description: {
-        type: String
+        type: String,
+        required: true,
+        trim: true,
     },
     complete: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
 const task = new Task({
     description: 'Bay fruits',
-    complete: false
 })
 
 task.save()
     .then(data => console.log(data))
-    .catch(err => console.log(err));*/
+    .catch(err => console.log(err));
