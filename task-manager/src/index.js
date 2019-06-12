@@ -31,6 +31,38 @@ app.post('/task', (req, resp) => {
         })
 })
 
+app.get('/users', (req, resp) => {
+    User.find()
+        .then(data => resp.status(200).send(data))
+        .catch(err => resp.status(500).send(err))
+})
+
+app.get('/users/:id', (req, resp) => {
+    const _id = req.params.id;
+    User.findById( _id)
+        .then(data => {
+            console.log(data);
+            if(!data) {
+                resp.status(404).send('User did not find!')
+            }
+            resp.status(200).send(data)
+        })
+        .catch(err => resp.status(500).send(err))
+})
+
+app.get('/tasks', (req, resp) => {
+    Task.find()
+        .then(tasks => resp.status(200).send(tasks))
+        .catch(err => resp.status(500).send(err))
+})
+
+app.get('/tasks/:id', (req, resp) => {
+    const id = req.params.id;
+    Task.findById(id)
+        .then(tasks => resp.status(200).send(tasks))
+        .catch(err => resp.status(500).send(err))
+})
+
 app.listen(port, () => {
  console.log(`Server is up on port ${port}`)
 });
