@@ -49,13 +49,16 @@ router.get('/tasks/:id', async (req, resp) => {
 router.patch('/tasks/:id', async (req, resp) => {
     const {body, params: { id }} = req;
     const commingData = Object.keys(body);
-    const validators = ["description", "complete"];
-    const isValidData = validators.every(validator => commingData.includes(validator));
+    const validators = ['description', 'complete'];
+    const isValidData = commingData.every(validator => validators.includes(validator));
     if(!isValidData) {
         return resp.status(400).send({err: "Not Updatable data"})
     }
     try {
-        const task = await Task.findByIdAndUpdate(id, body, {new: true, runValidators: true})
+        //const task = await Task.findByIdAndUpdate(id, body, {new: true, runValidators: true})
+        const task = await Task.findById(id);
+        commingData.forEach(update => task[update] = req.body[update]);
+        await task.save();
         if(!task) {
             return resp.status(404).send()
         }
