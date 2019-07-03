@@ -30,7 +30,8 @@ router.get('/users/:id', async (req, resp) => {
 router.post('/users/login', async (req, resp) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
-        resp.status(200).send(user)
+        const token = await user.generateAuthToken();
+        resp.status(200).send({user, token})
     }
     catch (er) {
         resp.status(500).send({erroro: er})
@@ -41,8 +42,9 @@ router.post('/user', async (req, resp) => {
     const newUser =  new User(req.body);
 
     try{
-        await newUser.save();
-        resp.status(200).send(newUser)
+        const savedUser = await newUser.save();
+        const token = await savedUser.generateAuthToken();
+        resp.status(200).send({ savedUser, token})
     }
     catch(er) {
         resp.status(400).send(er);
